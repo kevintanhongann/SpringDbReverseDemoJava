@@ -1,52 +1,96 @@
+// These imports are needed further down
+// -------------------------------------
+import groovy.xml.MarkupBuilder
+
+import javax.xml.bind.JAXB
+import org.jooq.util.GenerationTool
+
 ext {
-	springBootVersion = '1.3.1.RELEASE'
-	jooqVersion = '3.7.2'
+    springBootVersion = '1.3.1.RELEASE'
+    jooqVersion = '3.7.2'
 }
 
 buildscript {
-
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath "org.jooq:jooq-codegen:${jooqVersion}"
-	}
+    ext {
+        springBootVersion = '1.3.1.RELEASE'
+        jooqVersion = '3.7.2'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.jooq:jooq-codegen:${jooqVersion}"
+        classpath 'com.h2database:h2:1.4.177'
+        classpath 'mysql:mysql-connector-java:5.1.38'
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'SpringDbReverseDemoJava'
-	version = '0.0.1-SNAPSHOT'
+    baseName = 'SpringDbReverseDemoJava'
+    version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	runtime 'hsqldb:hsqldb:1.8.0.10'
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	compile "org.jooq:jooq:${jooqVersion}"
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    runtime 'hsqldb:hsqldb:1.8.0.10'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile "org.jooq:jooq:${jooqVersion}"
+    compile 'mysql:mysql-connector-java:5.1.38'
 }
 
 
 eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
+    classpath {
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.9'
+    gradleVersion = '2.9'
 }
+
+// Use your favourite XML builder to construct the code generation configuration file
+// ----------------------------------------------------------------------------------
+def writer = new StringWriter()
+def xml = new MarkupBuilder(writer)
+        .configuration('xmlns': "http://www.jooq.org/xsd/jooq-codegen-3.7.0.xsd") {
+    jdbc() {
+        driver('com.mysql.jdbc.Driver')
+        url('jdbc:mysql://localhost/employees')
+        user('kevintan')
+        password('kevintan')
+    }
+    generator() {
+        database() {
+
+        }
+        generate() {
+        }
+        target() {
+            packageName('com.example')
+            directory('src/main/java')
+        }
+    }
+}
+
+// Run the code generator
+// ----------------------
+GenerationTool.generate(
+        JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
+)
