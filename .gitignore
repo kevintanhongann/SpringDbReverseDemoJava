@@ -57,7 +57,7 @@ crashlytics-build.properties
 
 # Created by .ignore support plugin (hsz.mobi)
 
-
+#  ignoring unnecessary generated classes that are unrelated with the project
 src/main/java/com/example/performance_schema/
 src/main/java/com/example/information_schema/
 src/main/java/com/example/sys/
