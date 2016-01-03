@@ -97,3 +97,5 @@ def xml = new MarkupBuilder(writer)
 GenerationTool.generate(
         JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
 )
+
+

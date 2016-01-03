@@ -1,12 +1,10 @@
 package com.example.web;
 
+import com.example.domain.Salary;
 import com.example.employees.tables.records.SalariesRecord;
 import com.example.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,9 +19,13 @@ public class SalaryController {
 
     @RequestMapping(value = "/salary", method = RequestMethod.GET)
     @ResponseBody
-    List<SalariesRecord> getSalaries(){
-        return salaryService.getSalaries();
+    List<Salary> getSalaries() {
+        return salaryService.getSalaries(1, 10);
     }
 
-
+    @RequestMapping(value = "/salary", params = {"page", "size"}, method = RequestMethod.GET)
+    @ResponseBody
+    List<Salary> getSalaries(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return salaryService.getSalaries(page, size);
+    }
 }

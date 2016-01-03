@@ -1,5 +1,6 @@
 package com.example.web;
 
+import com.example.domain.Title;
 import com.example.employees.tables.records.TitlesRecord;
 import com.example.service.TitleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class TitleController {
 
     @RequestMapping(value = "/title", method = RequestMethod.GET)
     @ResponseBody
-    List<TitlesRecord> getTitles(){
+    List<Title> getTitles(){
         return titleService.getTitles();
     }
 
