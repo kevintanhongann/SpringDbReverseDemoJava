@@ -1,11 +1,13 @@
 package com.example.web;
 
+import com.example.domain.Department;
 import com.example.employees.tables.Departments;
 import com.example.employees.tables.records.DepartmentsRecord;
 import com.example.service.DepartmentService;
 import com.example.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,8 +21,8 @@ public class DepartmentController {
     @Autowired
     DepartmentService departmentService;
 
-    @RequestMapping("/department")
-    List<DepartmentsRecord> getDepartments(){
+    @RequestMapping(value = "/department", method = RequestMethod.GET)
+    List<Department> getDepartments(){
         return departmentService.getDepartments();
     }
 

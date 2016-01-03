@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.domain.Department;
 import com.example.employees.tables.Departments;
 import com.example.employees.tables.records.DepartmentsRecord;
 import org.jooq.DSLContext;
@@ -19,9 +20,8 @@ public class DefaultDepartmentService implements DepartmentService{
     DSLContext dsl;
 
     @Override
-    public Result<DepartmentsRecord> getDepartments() {
-        return dsl.selectFrom(Departments.DEPARTMENTS).fetch();
+    public List<Department> getDepartments() {
+        return dsl.selectFrom(Departments.DEPARTMENTS).fetchInto(Department.class);
     }
-
 
 }

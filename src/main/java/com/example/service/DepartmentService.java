@@ -1,14 +1,11 @@
 package com.example.service;
 
-import com.example.employees.tables.Departments;
-import com.example.employees.tables.records.DepartmentsRecord;
-import org.jooq.Result;
-
+import com.example.domain.Department;
 import java.util.List;
 
 /**
  * Created by kevintan on 02/01/2016.
  */
 public interface DepartmentService {
-    Result<DepartmentsRecord> getDepartments();
+    List<Department> getDepartments();
 }
