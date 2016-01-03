@@ -49,8 +49,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     runtime 'hsqldb:hsqldb:1.8.0.10'
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile "org.jooq:jooq:${jooqVersion}"
     compile 'mysql:mysql-connector-java:5.1.38'
+    compile "org.projectlombok:lombok:1.16.6"
 }
 
 
