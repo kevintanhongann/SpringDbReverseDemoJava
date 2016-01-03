@@ -53,6 +53,7 @@ dependencies {
     compile "org.jooq:jooq:${jooqVersion}"
     compile 'mysql:mysql-connector-java:5.1.38'
     compile "org.projectlombok:lombok:1.16.6"
+    compile("org.springframework.boot:spring-boot-devtools")
 }
 
 

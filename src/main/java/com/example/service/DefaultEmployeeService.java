@@ -23,4 +23,10 @@ public class DefaultEmployeeService implements EmployeeService{
         List<Employee> employees = dsl.selectFrom(Employees.EMPLOYEES).fetchInto(Employee.class);
         return employees;
     }
+
+    @Override
+    public List<Employee> getEmployees(Integer page, Integer size) {
+        List<Employee> employees = dsl.selectFrom(Employees.EMPLOYEES).limit(page, size).fetchInto(Employee.class);
+        return employees;
+    }
 }

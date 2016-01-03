@@ -5,10 +5,7 @@ import com.example.employees.tables.records.EmployeesRecord;
 import com.example.service.EmployeeService;
 import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,10 +18,28 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @RequestMapping(value = "/employee", method = RequestMethod.GET)
+    @RequestMapping(value = "/employee",  method = RequestMethod.GET)
     @ResponseBody
     List<Employee> getEmployees(){
-        List<Employee> employees = employeeService.getEmployees();
+        //default with page 1, size 10
+        List<Employee> employees = employeeService.getEmployees(1, 10);
+        System.out.println("employees "+employees);
+        return employees;
+    }
+
+    @RequestMapping(value = "/employee", params = {"page", "size"},  method = RequestMethod.GET)
+    @ResponseBody
+    List<Employee> getEmployees(@RequestParam("page") int page,@RequestParam("size") int size){
+
+        /*if (page == null) {
+            page = 1;
+        }
+
+        if(size == null){
+            size = 10;
+        }*/
+
+        List<Employee> employees = employeeService.getEmployees(page, size);
         System.out.println("employees "+employees);
         return employees;
     }

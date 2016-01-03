@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface EmployeeService {
     List<Employee> getEmployees();
+    List<Employee> getEmployees(Integer page, Integer size);
 }
